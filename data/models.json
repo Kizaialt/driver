@@ -1,0 +1,515 @@
+{
+ "updated": "2026-08-30",
+ "mongolian": [
+  {
+   "brand": "AULA",
+   "name": "WIN 60 HE",
+   "type": "kb",
+   "kind": "web",
+   "alias": [
+    "win60",
+    "win 60",
+    "вин 60",
+    "si2825",
+    "win 60 standard",
+    "win 60 standard edition",
+    "standard"
+   ],
+   "note": "Соронзон (Hall effect) гар",
+   "web": "https://kizaialt.github.io/winhe-driver/",
+   "mn": true
+  },
+  {
+   "brand": "AULA",
+   "name": "WIN 68 HE",
+   "type": "kb",
+   "kind": "web",
+   "alias": [
+    "win68",
+    "win 68",
+    "вин 68",
+    "si2828",
+    "win 68 standard",
+    "standard"
+   ],
+   "note": "Соронзон (Hall effect) гар",
+   "web": "https://kizaialt.github.io/winhe-driver/",
+   "mn": true
+  },
+  {
+   "brand": "AULA",
+   "name": "F65",
+   "type": "kb",
+   "kind": "pack",
+   "alias": [
+    "ф65",
+    "f 65"
+   ],
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=545&lang=&field=ab5cVgAFCQUHVQkAVlJTBwRSCVUFAQEFU1AAAFRQQgoSXUQ",
+   "pack": "https://github.com/Kizaialt/aula-fseries-mn/releases/download/v1.0/AULA_F65_driver_mn.zip",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": true
+  },
+  {
+   "brand": "AULA",
+   "name": "F75",
+   "type": "kb",
+   "kind": "pack",
+   "alias": [
+    "ф75",
+    "f 75"
+   ],
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=548&lang=&field=4dc9BQgHUwIEVFYIVAEGDFoJVFVVB1QEDVVSVAFRQlFOVUc",
+   "pack": "https://github.com/Kizaialt/aula-fseries-mn/releases/download/v1.0/AULA_F75_driver_mn.zip",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": true
+  },
+  {
+   "brand": "AULA",
+   "name": "F99",
+   "type": "kb",
+   "kind": "pack",
+   "alias": [
+    "ф99",
+    "f 99"
+   ],
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=557&lang=&field=f56eVAdRBVJSBAhRCAAIBQJVBltQBFdWBVVTBQBdEAsQBEA",
+   "pack": "https://github.com/Kizaialt/aula-fseries-mn/releases/download/v1.0/AULA_F99_driver_mn.zip",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": true
+  },
+  {
+   "brand": "AULA",
+   "name": "F108",
+   "type": "kb",
+   "kind": "pack",
+   "alias": [
+    "ф108",
+    "f 108"
+   ],
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=560&lang=&field=c6a2AgkFBlQHUgAAVFNWBwcDXQEDAAMCA1MGClZcSggQAEA",
+   "pack": "https://github.com/Kizaialt/aula-fseries-mn/releases/download/v1.0/AULA_F108_driver_mn.zip",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": true
+  },
+  {
+   "brand": "KYSONA",
+   "name": "M600",
+   "type": "mouse",
+   "kind": "pack",
+   "alias": [
+    "м600",
+    "m 600",
+    "m617",
+    "aztec",
+    "кисона"
+   ],
+   "note": "M617, Aztec загварт мөн тохирно",
+   "vendor": "https://cdn.shopify.com/s/files/1/0809/0697/7595/files/M600.exe?v=1731988923",
+   "vendor_page": "https://shop.kysona.com/pages/downloads",
+   "pack": "https://github.com/Kizaialt/kysona-m600-mn/releases/download/v1.0/KYSONA_M600_driver_mn.zip",
+   "mn": true
+  },
+  {
+   "brand": "KYSONA",
+   "name": "M600 V2",
+   "type": "mouse",
+   "kind": "pack",
+   "alias": [
+    "м600 v2",
+    "m600v2"
+   ],
+   "vendor": "https://cdn.shopify.com/s/files/1/0809/0697/7595/files/KYSONA_M600_V2_mouse_software.rar?v=1742263715",
+   "vendor_page": "https://shop.kysona.com/pages/downloads",
+   "pack": "https://github.com/Kizaialt/kysona-m600-mn/releases/download/v1.0/KYSONA_M600_V2_driver_mn.zip",
+   "note": ".rar дотор ирнэ — эхлээд задална",
+   "mn": true
+  }
+ ],
+ "others": [
+  {
+   "brand": "AULA",
+   "name": "AG 60 HE",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "web",
+   "vendor": "https://heu.aulacn.com",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "AG 75 HE",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "web",
+   "vendor": "https://heu.aulacn.com",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "BOX63",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "hub",
+   "vendor": "https://www.aulastar.com/aula-hub/",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F106Pro",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=559&lang=&field=0f65UQgGAwJVBAkIVgJTUQhWXAAEAFILVgcGAVUHRApPXEc",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F108 PRO V2",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "hub",
+   "vendor": "https://www.aulastar.com/aula-hub/",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F108Pro",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=561&lang=&field=1905BQlUBAACAgdSVVdYCQVRUgAIUgEPAgcDBVYCRwtPBxE",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F2023",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=562&lang=&field=cf1eA1FRBARUVQEHBAZWVVAGAlQFAlEJBg0MAg8HRF0SXUI",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F2028",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=563&lang=&field=87eeUlMEVFRTAQBVAQMMAlUHBlECAwVRVAABAwtXR1EXARA",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F2058",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=564&lang=&field=fab8AgIHUwNWBAkJAAgJUQQBDFdXD1hWXgIEUwUCQg1OUkU",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F2063",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=565&lang=&field=fab8AwZUVFVSVgdRVgJUWwNVAVdeC1AHA1NXDFBWEF5EB0A",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F2088",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=566&lang=&field=b5aaA1EAUQMIVgEJVgYAAANWAVAKU1NTClVSAldURQxGBhM",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F65Pro",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=546&lang=&field=5bedBANTAFNRB1IHCVMJWgFUUQBfX1AGWlUJAwcFFw1BUUY",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F68",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/uploads/soft/20260528/AULA%20%20F68%20driver.exe",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F75HE",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=847&lang=&field=f7a4B1ZWAQFUUQUDVQgABVNTAFVQAgYGAQAOBg4FXxZZRlBFAw",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F75MAX",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=549&lang=&field=e549BwhVAAMCAFIBBlBRVQhXVVUICQVdBwMABQVRSw0QUBA",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F87 & 87Pro",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=550&lang=&field=b51eBARRVgZVCVRVAFAAVABYAVcDVwZcDwBUBlMAEV4QAxY",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F87 PRO V2",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "hub",
+   "vendor": "https://www.aulastar.com/aula-hub/",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F87 Wired",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=552&lang=&field=b44bCVQHA1QGCVYHBlVbAgRVBQAPVQIAAQcGBwZXQAhEXEU",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F98",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=553&lang=&field=b44bCQUCUlFUBwgHVFNSW1VSVwFQVgMCAAdUBABXQFpGUkI",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F98PRO",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=554&lang=&field=803aAwQGBAJUCQUAUgdWU1JTAFYKBgEEU1ZSWFdVFFgUV0c",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F98X",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/uploads/soft/20260312/F98X.exe",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F98pro V3",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=555&lang=&field=b557BAEDBAkIAwNUCV1TUAEDAQVWUFdUAAZQV1MBEw9AAxM",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F99MAX",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/uploads/soft/20260722/F99MAX%20Driver.exe",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "F99Pro",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=558&lang=&field=6d8eCVVTVgAEVFZUUlELBFxVUghWVldSCVtXXQcGFFpHUxY",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "HERO 68 HE",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "web",
+   "vendor": "https://hero.aulastar.com",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "HERO 68 HE Air",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "hub",
+   "vendor": "https://www.aulastar.com/aula-hub/",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "HERO 68 HE MINI Air",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "hub",
+   "vendor": "https://www.aulastar.com/aula-hub/",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "HERO 68 HE ULTRA",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "web",
+   "vendor": "https://magnet.aulastar.com",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "HERO 68 HE XS",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "hub",
+   "vendor": "https://www.aulastar.com/aula-hub/",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "HERO 84 HE",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "web",
+   "vendor": "https://hero.aulastar.com",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "HERO 99 HE",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "web",
+   "vendor": "https://hero.aulastar.com",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "HERO75 HE",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "hub",
+   "vendor": "https://www.aulastar.com/aula-hub/",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "MINI 60 HE",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "web",
+   "vendor": "https://hec.aulacn.com",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "NOVA99",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "exe",
+   "vendor": "https://www.aulastar.com/uploads/soft/20260709/NOVA99%20Driver.exe",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "WIN 60 MAX",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "web",
+   "vendor": "https://magnet.aulastar.com",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "WIN 60 PRO",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "web",
+   "vendor": "https://magnet.aulastar.com",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "WIN 68 MAX",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "web",
+   "vendor": "https://magnet.aulastar.com",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  },
+  {
+   "brand": "AULA",
+   "name": "WIN 68 PRO",
+   "type": "kb",
+   "kind": "vendor",
+   "how": "web",
+   "vendor": "https://magnet.aulastar.com",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": false
+  }
+ ],
+ "links": {
+  "aula": "https://www.aulastar.com/keyboard/",
+  "kysona": "https://shop.kysona.com/pages/downloads"
+ }
+}
