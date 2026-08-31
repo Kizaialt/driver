@@ -23,8 +23,8 @@ AULA_LIST = 'https://www.aulastar.com/keyboard/'
 KYSONA_LIST = 'https://shop.kysona.com/pages/downloads'
 
 WEB_DRIVER = 'https://kizaialt.github.io/winhe-driver/'
-FSERIES_REL = 'https://github.com/Kizaialt/aula-fseries-mn/releases/download/v1.0/'
-KYSONA_REL = 'https://github.com/Kizaialt/kysona-m600-mn/releases/download/v1.0/'
+FSERIES_REL = 'https://github.com/Kizaialt/aula-fseries-mn/releases/download/v1.1/'
+KYSONA_REL = 'https://github.com/Kizaialt/kysona-m600-mn/releases/download/v1.1/'
 
 
 def aula(url):
@@ -64,24 +64,42 @@ MONGOLIAN = [
         'alias': ['ф65', 'f 65'],
         'vendor': None,          # filled from the scrape
         'pack': FSERIES_REL + 'AULA_F65_driver_mn.zip',
+        'auto': FSERIES_REL + 'AULA_F65_driver_mn_auto.zip',
     },
     {
         'brand': 'AULA', 'name': 'F75', 'type': 'kb', 'kind': 'pack',
         'alias': ['ф75', 'f 75'],
         'vendor': None,
         'pack': FSERIES_REL + 'AULA_F75_driver_mn.zip',
+        'auto': FSERIES_REL + 'AULA_F75_driver_mn_auto.zip',
     },
     {
         'brand': 'AULA', 'name': 'F99', 'type': 'kb', 'kind': 'pack',
         'alias': ['ф99', 'f 99'],
         'vendor': None,
         'pack': FSERIES_REL + 'AULA_F99_driver_mn.zip',
+        'auto': FSERIES_REL + 'AULA_F99_driver_mn_auto.zip',
     },
     {
         'brand': 'AULA', 'name': 'F108', 'type': 'kb', 'kind': 'pack',
         'alias': ['ф108', 'f 108'],
         'vendor': None,
         'pack': FSERIES_REL + 'AULA_F108_driver_mn.zip',
+        'auto': FSERIES_REL + 'AULA_F108_driver_mn_auto.zip',
+    },
+    {
+        'brand': 'AULA', 'name': 'F65 Pro', 'type': 'kb', 'kind': 'pack',
+        'alias': ['f65pro', 'ф65 про', 'f65 pro'],
+        'vendor': None,
+        'pack': FSERIES_REL + 'AULA_F65Pro_driver_mn.zip',
+        'auto': FSERIES_REL + 'AULA_F65Pro_driver_mn_auto.zip',
+    },
+    {
+        'brand': 'AULA', 'name': 'F99 Pro', 'type': 'kb', 'kind': 'pack',
+        'alias': ['f99pro', 'ф99 про', 'f99 pro'],
+        'vendor': None,
+        'pack': FSERIES_REL + 'AULA_F99Pro_driver_mn.zip',
+        'auto': FSERIES_REL + 'AULA_F99Pro_driver_mn_auto.zip',
     },
     {
         'brand': 'KYSONA', 'name': 'M600', 'type': 'mouse', 'kind': 'pack',
@@ -90,6 +108,7 @@ MONGOLIAN = [
         'vendor': 'https://cdn.shopify.com/s/files/1/0809/0697/7595/files/M600.exe?v=1731988923',
         'vendor_page': KYSONA_LIST,
         'pack': KYSONA_REL + 'KYSONA_M600_driver_mn.zip',
+        'auto': KYSONA_REL + 'KYSONA_M600_driver_mn_auto.zip',
     },
     {
         'brand': 'KYSONA', 'name': 'M600 V2', 'type': 'mouse', 'kind': 'pack',
@@ -97,12 +116,14 @@ MONGOLIAN = [
         'vendor': 'https://cdn.shopify.com/s/files/1/0809/0697/7595/files/KYSONA_M600_V2_mouse_software.rar?v=1742263715',
         'vendor_page': KYSONA_LIST,
         'pack': KYSONA_REL + 'KYSONA_M600_V2_driver_mn.zip',
+        'auto': KYSONA_REL + 'KYSONA_M600_V2_driver_mn_auto.zip',
         'note': '.rar дотор ирнэ — эхлээд задална',
     },
 ]
 
 # vendor download for the four F-series models, taken from the scrape
-FSERIES_SCRAPE_KEY = {'F65': 'F65', 'F75': 'F75', 'F99': 'F99', 'F108': 'F108'}
+FSERIES_SCRAPE_KEY = {'F65': 'F65', 'F65 Pro': 'F65Pro', 'F75': 'F75',
+                      'F99': 'F99', 'F99 Pro': 'F99Pro', 'F108': 'F108'}
 
 # Models we deliberately do not list (other brands' resellers, ancient stock)
 SKIP = set()
@@ -127,7 +148,7 @@ def main():
         models.append(entry)
 
     known = {m['name'].upper() for m in MONGOLIAN}
-    known |= {'M617', 'AZTEC'}
+    known |= {'M617', 'AZTEC', 'F65PRO', 'F99PRO'}
     # AULA lists the same two boards under a second name on its web-drive
     # page; they point at the very driver we translated, so listing them
     # again under 'others' would send customers to the untranslated one.
@@ -156,7 +177,7 @@ def main():
         })
 
     data = {
-        'updated': '2026-08-30',
+        'updated': '2026-08-31',
         'mongolian': models,
         'others': others,
         'links': {'aula': AULA_LIST, 'kysona': KYSONA_LIST},

@@ -64,27 +64,25 @@ def mn_row(m):
             'Firefox, Safari дээр ажиллахгүй.</div>'
         ) % (esc(m['web']), EXT)
     else:
-        # Step 1 carries the primary button on purpose: installing only the
-        # language pack, without the vendor driver, is the most likely way a
-        # customer gets stuck.
+        # One file, one double-click. The bundle carries the vendor's own
+        # installer, so there is nothing to download separately and no
+        # language menu to find afterwards.
         menu = 'Setting → Language' if m.get('type') == 'mouse' else 'Config → Language'
+        opens = ('Драйвер монголоор нээгдэнэ. Хэрэв гарахгүй бол <b>%s → Монгол</b> '
+                 'сонгоно.' % menu) if m.get('type') == 'mouse' else (
+                'Драйвер шууд <b>монгол хэл дээр</b> нээгдэнэ.')
         body = (
-            '<ul class="steps">'
-            '<li>'
-            '<div class="steptitle">Үйлдвэрлэгчийн драйверыг суулгах</div>'
-            '<div class="stephint">%s-гийн жинхэнэ драйвер. <b>Үүнийг заавал эхэлж '
-            'суулгана</b> — эс тэгвээс монгол хэл ажиллахгүй.</div>'
-            '<a class="btn" href="%s" target="_blank" rel="noopener">%sДрайвер татах</a>'
-            '</li>'
-            '<li>'
-            '<div class="steptitle">Монгол хэлний багцыг нэмэх</div>'
-            '<div class="stephint">Задлаад <b>install-mn.bat</b> дээр хоёр товшино. '
-            'Администратор эрх асуувал зөвшөөрнө.</div>'
-            '<a class="btn ghost" href="%s">%sМонгол багц татах</a>'
-            '</li>'
-            '</ul>'
-            '<div class="after">Дараа нь драйвераа нээгээд <b>%s → Монгол</b> сонгоно.</div>'
-        ) % (esc(m['brand']), esc(m['vendor']), DL, esc(m['pack']), DL, menu)
+            '<ul class="steps"><li>'
+            '<div class="steptitle">Татаад суулгах</div>'
+            '<div class="stephint">Драйвер болон монгол хэл хамт. Задлаад '
+            '<b>Суулгах.bat</b> дээр хоёр товшоод, гарч ирэх цонхон дээр '
+            'Next / Install дарна.</div>'
+            '<a class="btn" href="%s">%sТатаад суулгах</a>'
+            '</li></ul>'
+            '<div class="after">%s</div>'
+            '<p class="alt">Драйвераа аль хэдийн суулгасан бол '
+            '<a href="%s">зөвхөн монгол хэлний файл</a> хангалттай.</p>'
+        ) % (esc(m.get('auto') or m['pack']), DL, opens, esc(m['pack']))
 
     return (
         '<details class="item" data-k="%s">'

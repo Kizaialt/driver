@@ -48,7 +48,7 @@ def main():
 
     targets = []
     for m in data['mongolian']:
-        for field in ('web', 'vendor', 'pack', 'vendor_page'):
+        for field in ('web', 'auto', 'vendor', 'pack', 'vendor_page'):
             if m.get(field):
                 targets.append(('%s %s [%s]' % (m['brand'], m['name'], field), m[field]))
     for o in data['others']:
