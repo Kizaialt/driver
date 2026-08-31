@@ -23,8 +23,8 @@ AULA_LIST = 'https://www.aulastar.com/keyboard/'
 KYSONA_LIST = 'https://shop.kysona.com/pages/downloads'
 
 WEB_DRIVER = 'https://kizaialt.github.io/winhe-driver/'
-FSERIES_REL = 'https://github.com/Kizaialt/aula-fseries-mn/releases/download/v1.1/'
-KYSONA_REL = 'https://github.com/Kizaialt/kysona-m600-mn/releases/download/v1.1/'
+FSERIES_REL = 'https://github.com/Kizaialt/aula-fseries-mn/releases/download/v1.2/'
+KYSONA_REL = 'https://github.com/Kizaialt/kysona-m600-mn/releases/download/v1.2/'
 
 
 def aula(url):
@@ -102,6 +102,43 @@ MONGOLIAN = [
         'auto': FSERIES_REL + 'AULA_F99Pro_driver_mn_auto.zip',
     },
     {
+        'brand': 'AULA', 'name': 'F75 MAX', 'type': 'kb', 'kind': 'pack',
+        'alias': ['f75max', 'ф75 макс'],
+        'vendor': None,
+        'pack': FSERIES_REL + 'AULA_F75MAX_driver_mn_auto.zip',
+        'auto': FSERIES_REL + 'AULA_F75MAX_driver_mn_auto.zip',
+    },
+    {
+        'brand': 'AULA', 'name': 'F98 Pro', 'type': 'kb', 'kind': 'pack',
+        'alias': ['f98pro', 'f98 pro', 'f98pro v3', 'ф98'],
+        'note': 'F98 Pro V3 загварт мөн тохирно',
+        'vendor': None,
+        'pack': FSERIES_REL + 'AULA_F98PRO_driver_mn_auto.zip',
+        'auto': FSERIES_REL + 'AULA_F98PRO_driver_mn_auto.zip',
+    },
+    {
+        'brand': 'AULA', 'name': 'F106 Pro', 'type': 'kb', 'kind': 'pack',
+        'alias': ['f106pro', 'f106 pro', 'ф106'],
+        'vendor': None,
+        'pack': FSERIES_REL + 'AULA_F106Pro_driver_mn_auto.zip',
+        'auto': FSERIES_REL + 'AULA_F106Pro_driver_mn_auto.zip',
+    },
+    {
+        'brand': 'AULA', 'name': 'F108 Pro', 'type': 'kb', 'kind': 'pack',
+        'alias': ['f108pro', 'f108 pro', 'ф108 про'],
+        'vendor': None,
+        'pack': FSERIES_REL + 'AULA_F108Pro_driver_mn_auto.zip',
+        'auto': FSERIES_REL + 'AULA_F108Pro_driver_mn_auto.zip',
+    },
+    {
+        'brand': 'AULA', 'name': 'F87 Wired', 'type': 'kb', 'kind': 'pack',
+        'alias': ['f87 wired', 'f87wired', 'ф87 утастай', 'f87'],
+        'note': 'Хэлээ Settings → Language-с сонгоно',
+        'vendor': None,
+        'pack': FSERIES_REL + 'AULA_F87_Wired_driver_mn_auto.zip',
+        'auto': FSERIES_REL + 'AULA_F87_Wired_driver_mn_auto.zip',
+    },
+    {
         'brand': 'KYSONA', 'name': 'M600', 'type': 'mouse', 'kind': 'pack',
         'alias': ['м600', 'm 600', 'm617', 'aztec', 'кисона'],
         'note': 'M617, Aztec загварт мөн тохирно',
@@ -123,7 +160,10 @@ MONGOLIAN = [
 
 # vendor download for the four F-series models, taken from the scrape
 FSERIES_SCRAPE_KEY = {'F65': 'F65', 'F65 Pro': 'F65Pro', 'F75': 'F75',
-                      'F99': 'F99', 'F99 Pro': 'F99Pro', 'F108': 'F108'}
+                      'F99': 'F99', 'F99 Pro': 'F99Pro', 'F108': 'F108',
+                      'F75 MAX': 'F75MAX', 'F98 Pro': 'F98PRO',
+                      'F106 Pro': 'F106Pro', 'F108 Pro': 'F108Pro',
+                      'F87 Wired': 'F87 Wired'}
 
 # Models we deliberately do not list (other brands' resellers, ancient stock)
 SKIP = set()
@@ -148,7 +188,8 @@ def main():
         models.append(entry)
 
     known = {m['name'].upper() for m in MONGOLIAN}
-    known |= {'M617', 'AZTEC', 'F65PRO', 'F99PRO'}
+    known |= {'M617', 'AZTEC', 'F65PRO', 'F99PRO', 'F75MAX', 'F98PRO',
+              'F98PRO V3', 'F106PRO', 'F108PRO', 'F87 WIRED'}
     # AULA lists the same two boards under a second name on its web-drive
     # page; they point at the very driver we translated, so listing them
     # again under 'others' would send customers to the untranslated one.
