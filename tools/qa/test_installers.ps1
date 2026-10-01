@@ -293,8 +293,17 @@ try {
                         if ($en.Name -like '*.ps1') {
                             $ms = New-Object IO.MemoryStream; $st = $en.Open(); $st.CopyTo($ms); $st.Close()
                             $zb = $ms.ToArray()
+                            # Compare ignoring line endings: GitHub's Windows checkout turns the
+                            # repo's LF into CRLF, so a perfectly current zip would otherwise
+                            # look stale there (found on the first real CI run).
+                            $zn = [Text.Encoding]::UTF8.GetString($zb).Replace("`r`n", "`n")
+                            $zBom = ($zb.Length -ge 3 -and $zb[0] -eq 0xEF -and $zb[1] -eq 0xBB -and $zb[2] -eq 0xBF)
                             $isCurrent = $false
-                            foreach ($cand in $srcScripts) { if (Same-Bytes $zb $cand) { $isCurrent = $true } }
+                            foreach ($cand in $srcScripts) {
+                                $cn = [Text.Encoding]::UTF8.GetString($cand).Replace("`r`n", "`n")
+                                if ($zn -eq $cn) { $isCurrent = $true }
+                            }
+                            Check 'built zips' "$($zf.Name): $($en.Name) has a UTF-8 BOM" $zBom ''
                             Check 'built zips' "$($zf.Name): $($en.Name) is the current pack script" $isCurrent 'stale zip - built before the fix?'
                         }
                         if ($en.Name -like '*.bat') {
