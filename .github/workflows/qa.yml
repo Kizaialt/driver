@@ -52,7 +52,10 @@ jobs:
       # no token.  --depth 1 keeps it to a few seconds.
       - name: Clone the localisation repos
         run: |
-          for r in aula-driver-mn aula-fseries-mn kysona-m600-mn; do
+          # The web driver's GitHub repo is "winhe-driver", but the QA tools find
+          # it by its local folder name, aula-driver-mn.
+          git clone --depth 1 https://github.com/Kizaialt/winhe-driver.git ../aula-driver-mn
+          for r in aula-fseries-mn kysona-m600-mn; do
             git clone --depth 1 "https://github.com/Kizaialt/$r.git" "../$r"
           done
 
@@ -85,7 +88,10 @@ jobs:
           python-version: '3.12'
       - name: Clone the localisation repos
         run: |
-          for r in aula-driver-mn aula-fseries-mn kysona-m600-mn; do
+          # The web driver's GitHub repo is "winhe-driver", but the QA tools find
+          # it by its local folder name, aula-driver-mn.
+          git clone --depth 1 https://github.com/Kizaialt/winhe-driver.git ../aula-driver-mn
+          for r in aula-fseries-mn kysona-m600-mn; do
             git clone --depth 1 "https://github.com/Kizaialt/$r.git" "../$r"
           done
 
