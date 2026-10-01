@@ -104,3 +104,22 @@ jobs:
       #   python tools/qa/vendor_drift.py --all
       - name: Installers - has the vendor shipped a new build?
         run: python tools/qa/vendor_drift.py --all --hash-only
+
+  # The customer-facing install scripts must run on Windows PowerShell 5.1 - the
+  # one that ships with Windows 10/11 and the one `shell: powershell` gives us.
+  # pwsh 7 reads BOM-less UTF-8 happily and would hide the bug this guards
+  # against: v1.0-v1.4 shipped five scripts that did not even parse, so every
+  # customer saw an error flash and a window close.
+  installers:
+    name: Install scripts run on Windows PowerShell 5.1
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clone the pack repos next to this one
+        shell: bash
+        run: |
+          git clone --depth 1 https://github.com/Kizaialt/aula-fseries-mn.git ../aula-fseries-mn
+          git clone --depth 1 https://github.com/Kizaialt/kysona-m600-mn.git ../kysona-m600-mn
+      - name: Run every install script in a sandbox
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File tools/qa/test_installers.ps1
