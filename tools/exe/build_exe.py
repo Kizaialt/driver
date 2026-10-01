@@ -98,6 +98,11 @@ def main():
                     help='build the END-TO-END test installer: embeds a harmless stand-in for the vendor installer, so the "driver is not installed yet" path can run')
     ap.add_argument('--dummy-vendor', action='store_true',
                     help='with --test: embed a 2-byte stand-in where the real vendor installer is missing (CI has none)')
+    ap.add_argument('--sign', action='store_true',
+                    help='Authenticode-sign the built exes with the certificate named by PEAKLAB_CERT_THUMBPRINT (see sign_exe.ps1)')
+    ap.add_argument('--allow-untrusted', action='store_true',
+                    help='with --sign: accept a certificate Windows does not trust (self-signed). Pipeline test only - never publish')
+    ap.add_argument('--no-timestamp', action='store_true', help='with --sign: skip the timestamp (tests only)')
     ap.add_argument('--out', help='output folder (default: <pack repo>/dist-exe, or dist-exe-test with --test)')
     args = ap.parse_args()
 
@@ -220,6 +225,25 @@ def main():
         print('built %-18s %5.1f MB  %s' % (m['name'], os.path.getsize(exe) / 1048576.0, os.path.relpath(exe, ROOT)))
 
     print('\nbuilt %d, skipped %d' % (len(built), len(skipped)))
+
+    if args.sign:
+        if not built:
+            sys.exit('nothing to sign')
+        if args.test and not args.allow_untrusted:
+            sys.exit('--sign on a TEST build is only for proving the pipeline: add --allow-untrusted')
+        cmd = ['powershell', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', os.path.join(HERE, 'sign_exe.ps1'),
+               '-Files', ','.join(exe for _, exe in built)]
+        if args.allow_untrusted:
+            cmd.append('-AllowUntrusted')
+        if args.no_timestamp:
+            cmd.append('-NoTimestamp')
+        print('\nsigning:')
+        if subprocess.run(cmd).returncode != 0:
+            print('\nSIGNING FAILED - do not publish these files.')
+            return 1
+        if args.allow_untrusted:
+            print('\nNOTE: --allow-untrusted. Windows does NOT trust that signature. Do not publish these files.')
+
     if built:
         print('\nSHA-256 of the vendor installer embedded in each (also written to the exe\'s setup log):')
         for m, exe in built:
