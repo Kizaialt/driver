@@ -151,13 +151,30 @@
    "alias": [
     "f98pro",
     "f98 pro",
-    "f98pro v3",
     "ф98"
    ],
-   "note": "F98 Pro V3 загварт мөн тохирно",
+   "note": "V3 бол доорх «F98 Pro V3» мөрийг сонгоно",
    "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=554&lang=&field=803aAwQGBAJUCQUAUgdWU1JTAFYKBgEEU1ZSWFdVFFgUV0c",
    "pack": "https://github.com/Kizaialt/aula-fseries-mn/releases/download/v1.6/AULA_F98PRO_driver_mn_auto.zip",
    "auto": "https://github.com/Kizaialt/aula-fseries-mn/releases/download/v1.6/AULA_F98PRO_driver_mn_auto.zip",
+   "vendor_page": "https://www.aulastar.com/keyboard/",
+   "mn": true
+  },
+  {
+   "brand": "AULA",
+   "name": "F98 Pro V3",
+   "type": "kb",
+   "kind": "pack",
+   "alias": [
+    "f98pro v3",
+    "f98 pro v3",
+    "f98prov3",
+    "ф98 про v3",
+    "v3"
+   ],
+   "vendor": "https://www.aulastar.com/index.php?m=home&c=View&a=custom_download_file&aid=555&lang=&field=b557BAEDBAkIAwNUCV1TUAEDAQVWUFdUAAZQV1MBEw9AAxM",
+   "pack": "https://github.com/Kizaialt/aula-fseries-mn/releases/download/v1.6/AULA_F98pro_V3_driver_mn_auto.zip",
+   "auto": "https://github.com/Kizaialt/aula-fseries-mn/releases/download/v1.6/AULA_F98pro_V3_driver_mn_auto.zip",
    "vendor_page": "https://www.aulastar.com/keyboard/",
    "mn": true
   },

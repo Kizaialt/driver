@@ -97,9 +97,11 @@ foreach ($s in $scripts) {
     } else { Check 'static' "$($s.n): has the shared block" $false 'region markers missing' }
 }
 Check 'static' 'shared block identical in all five scripts' ($blockHashes.Count -eq 1) "$($blockHashes.Count) distinct version(s)"
-foreach ($bat in @((Join-Path $fs 'pack\install-mn.bat'), (Join-Path $ky 'pack\install-mn.bat'))) {
-    $t = [IO.File]::ReadAllText($bat)
-    Check 'static' "$(Split-Path -Leaf (Split-Path -Parent (Split-Path -Parent $bat)))\pack\install-mn.bat: pauses and uses CRLF" (($t -match '(?im)^pause\s*$') -and -not ($t -match '(?<!\r)\n')) 'a launcher that closes on error hides the error'
+foreach ($repo in @($fs, $ky)) {
+    # the old plain launcher is retired: every zip, one-click or language-only, uses the friendly one
+    Check 'static' "$(Split-Path -Leaf $repo): the old pack\install-mn.bat is gone" (-not (Test-Path (Join-Path $repo 'pack\install-mn.bat'))) 'retired: language-only zips use launcher-mn.bat'
+    $tm = [IO.File]::ReadAllText((Join-Path $repo 'tools\build.py'))
+    Check 'static' "$(Split-Path -Leaf $repo)\tools\build.py: language-only zips ship launcher-mn.bat as Install_Suulgah.bat" (($tm -match 'launcher-mn\.bat') -and ($tm -match 'Install_Suulgah\.bat')) ''
 }
 foreach ($bp in @('aula-fseries-mn\tools\bundle.py', 'aula-fseries-mn\tools\bundle_lan.py', 'kysona-m600-mn\tools\bundle.py')) {
     $t = [IO.File]::ReadAllText((Join-Path $Root $bp))
@@ -110,18 +112,20 @@ foreach ($bp in @('aula-fseries-mn\tools\bundle.py', 'aula-fseries-mn\tools\bund
 $oldEnc = [Console]::OutputEncoding
 [Console]::OutputEncoding = [Text.Encoding]::UTF8           # the launcher prints UTF-8 (chcp 65001)
 try {
-    foreach ($repo in @($fs, $ky)) {
-        $name = Split-Path -Leaf $repo
-        $launcher = Join-Path $repo 'pack\launcher.bat'
+    # two variants: the one-click zip runs install-auto.ps1, the language-only zip runs install-mn.ps1
+    $variants = @(@{ f = 'launcher.bat'; s = 'install-auto.ps1'; tag = 'one-click' }, @{ f = 'launcher-mn.bat'; s = 'install-mn.ps1'; tag = 'language-only' })
+    foreach ($v in $variants) { foreach ($repo in @($fs, $ky)) {
+        $name = (Split-Path -Leaf $repo) + ' ' + $v.tag
+        $launcher = Join-Path $repo ('pack\' + $v.f)
         $lb = Bytes $launcher
         $lt = [IO.File]::ReadAllText($launcher, [Text.Encoding]::UTF8)
         Check 'launcher' "${name}: no BOM (a BOM breaks line 1 of a .bat)" (-not ($lb[0] -eq 0xEF -and $lb[1] -eq 0xBB)) ''
         Check 'launcher' "${name}: CRLF line endings only" (-not ($lt -replace "`r`n", '' | Select-String "`n")) ''
-        Check 'launcher' "${name}: runs install-auto.ps1 and has the not-extracted guard" (($lt -match 'install-auto\.ps1') -and ($lt -match ':notextracted')) ''
+        Check 'launcher' "${name}: runs $($v.s) and has the not-extracted guard" (($lt.Contains($v.s)) -and ($lt -match ':notextracted')) ''
 
-        $sbL = Join-Path $work ("launcher-" + $name); New-Item -ItemType Directory -Force $sbL | Out-Null
+        $sbL = Join-Path $work ("launcher-" + $name.Replace(' ', '-')); New-Item -ItemType Directory -Force $sbL | Out-Null
         $bat = Join-Path $sbL 'Launch.bat'; Copy-Item $launcher $bat
-        $ps1 = Join-Path $sbL 'install-auto.ps1'
+        $ps1 = Join-Path $sbL $v.s
 
         # (a) opened from inside the zip: Windows copies only the .bat out, so the script is missing
         if (Test-Path $ps1) { Remove-Item $ps1 }
@@ -139,12 +143,12 @@ try {
         Check 'launcher' "${name}: a failing installer -> 'алдаа гарлаа' message and exit 1" (($code -eq 1) -and ($o -match 'алдаа гарлаа')) "exit $code"
 
         # (d) a folder with spaces and Cyrillic in its name (the customer's Downloads can be anything)
-        $odd = Join-Path $work ("Миний татсан файл $name"); New-Item -ItemType Directory -Force $odd | Out-Null
+        $odd = Join-Path $work ("Миний татсан файл " + $name.Replace(' ', '-')); New-Item -ItemType Directory -Force $odd | Out-Null
         Copy-Item $launcher (Join-Path $odd 'Launch.bat')
-        Set-Content (Join-Path $odd 'install-auto.ps1') -Value "Set-Content -LiteralPath '$(Join-Path $odd 'ran.txt')' -Value ok; exit 0" -Encoding UTF8
+        Set-Content (Join-Path $odd $v.s) -Value "Set-Content -LiteralPath '$(Join-Path $odd 'ran.txt')' -Value ok; exit 0" -Encoding UTF8
         $null = & cmd /c "echo.| `"$(Join-Path $odd 'Launch.bat')`" 2>&1"
         Check 'launcher' "${name}: works from a folder with spaces and Cyrillic in its name" ((Test-Path (Join-Path $odd 'ran.txt'))) ''
-    }
+    } }
 } finally { [Console]::OutputEncoding = $oldEnc }
 
 # ===================================================== 2. Find-Driver (D: etc.)
@@ -355,7 +359,9 @@ try {
                             $sr = New-Object IO.StreamReader($en.Open()); $bt = $sr.ReadToEnd(); $sr.Close()
                             Check 'built zips' "$($zf.Name): $($en.Name) pauses" ($bt -match '(?im)^pause\s*$') 'a launcher that closes on error hides the error'
                             if ($en.Name -like 'Install_Suulgah*') {
-                                $cur = [IO.File]::ReadAllText((Join-Path $repo 'pack\launcher.bat'), [Text.Encoding]::UTF8).Replace("`r`n", "`n")
+                                # one-click zips carry launcher.bat; the small language-only zips carry launcher-mn.bat
+                                $want = if ($zf.Name -like '*_auto.zip') { 'pack\launcher.bat' } else { 'pack\launcher-mn.bat' }
+                                $cur = [IO.File]::ReadAllText((Join-Path $repo $want), [Text.Encoding]::UTF8).Replace("`r`n", "`n")
                                 Check 'built zips' "$($zf.Name): $($en.Name) is the current launcher" ($bt.Replace("`r`n", "`n") -eq $cur) 'stale zip - built before the launcher changed?'
                             }
                         }

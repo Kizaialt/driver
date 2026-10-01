@@ -110,11 +110,20 @@ MONGOLIAN = [
     },
     {
         'brand': 'AULA', 'name': 'F98 Pro', 'type': 'kb', 'kind': 'pack',
-        'alias': ['f98pro', 'f98 pro', 'f98pro v3', 'ф98'],
-        'note': 'F98 Pro V3 загварт мөн тохирно',
+        'alias': ['f98pro', 'f98 pro', 'ф98'],
+        'note': 'V3 бол доорх «F98 Pro V3» мөрийг сонгоно',
         'vendor': None,
         'pack': FSERIES_REL + 'AULA_F98PRO_driver_mn_auto.zip',
         'auto': FSERIES_REL + 'AULA_F98PRO_driver_mn_auto.zip',
+    },
+    {
+        # Same language table as the F98 Pro (349 keys, no differences) but a DIFFERENT vendor
+        # installer. Sharing one row would hand a V3 owner on a fresh PC the wrong AULA driver.
+        'brand': 'AULA', 'name': 'F98 Pro V3', 'type': 'kb', 'kind': 'pack',
+        'alias': ['f98pro v3', 'f98 pro v3', 'f98prov3', 'ф98 про v3', 'v3'],
+        'vendor': None,
+        'pack': FSERIES_REL + 'AULA_F98pro_V3_driver_mn_auto.zip',
+        'auto': FSERIES_REL + 'AULA_F98pro_V3_driver_mn_auto.zip',
     },
     {
         'brand': 'AULA', 'name': 'F106 Pro', 'type': 'kb', 'kind': 'pack',
@@ -164,7 +173,7 @@ MONGOLIAN = [
 # vendor download for the four F-series models, taken from the scrape
 FSERIES_SCRAPE_KEY = {'F65': 'F65', 'F65 Pro': 'F65Pro', 'F75': 'F75',
                       'F99': 'F99', 'F99 Pro': 'F99Pro', 'F108': 'F108',
-                      'F75 MAX': 'F75MAX', 'F98 Pro': 'F98PRO',
+                      'F75 MAX': 'F75MAX', 'F98 Pro': 'F98PRO', 'F98 Pro V3': 'F98pro V3',
                       'F106 Pro': 'F106Pro', 'F108 Pro': 'F108Pro',
                       'F87 Wired': 'F87 Wired'}
 
