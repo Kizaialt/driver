@@ -656,6 +656,21 @@ def self_test():
     shutil.copytree(fs, dst, ignore=shutil.ignore_patterns(
         '.git', 'installers', '.work', '.work2', 'dist-auto', 'image',
         'css', 'js', 'plug', 'firmware', '*.zip'))
+    # The shipped F75 was fixed (v1.4), so it no longer has the collision this
+    # case needs. Put the original bug back in the scratch copy - one
+    # translation written over both occurrences of a key - so the case tests
+    # the check, not whether production data happens to still be broken.
+    def reintroduce_collision(root):
+        p = os.path.join(root, 'dist', 'AULA_F75_driver', 'text.xml')
+        t = open(p, 'rb').read().decode('utf-16')
+        for key in ('tc_yun9', 'tc_yun10'):
+            marks = [m for m in re.finditer(r'<%s>([^<]*)</%s>' % (key, key), t)]
+            if len(marks) > 1:
+                m = marks[1]
+                t = t[:m.start()] + marks[0].group(0) + t[m.end():]
+        open(p, 'wb').write(t.encode('utf-16'))
+
+    reintroduce_collision(dst)
     before = [m for m in scan(dst) if 'two DIFFERENT English' in m]
     resolve_collision(dst)
     after = [m for m in scan(dst) if 'two DIFFERENT English' in m]
