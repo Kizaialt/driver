@@ -103,8 +103,49 @@ foreach ($bat in @((Join-Path $fs 'pack\install-mn.bat'), (Join-Path $ky 'pack\i
 }
 foreach ($bp in @('aula-fseries-mn\tools\bundle.py', 'aula-fseries-mn\tools\bundle_lan.py', 'kysona-m600-mn\tools\bundle.py')) {
     $t = [IO.File]::ReadAllText((Join-Path $Root $bp))
-    Check 'static' "${bp}: generated launcher ends with pause" ($t -match '(?m)^BAT = .*pause') ''
+    Check 'static' "${bp}: the zip launcher comes from pack/launcher.bat" ($t -match "(?m)^BAT = io\.open\(.*launcher\.bat") ''
 }
+
+# ---- the zip launcher (pack/launcher.bat -> "Install_Suulgah.bat"), run for real ---------------
+$oldEnc = [Console]::OutputEncoding
+[Console]::OutputEncoding = [Text.Encoding]::UTF8           # the launcher prints UTF-8 (chcp 65001)
+try {
+    foreach ($repo in @($fs, $ky)) {
+        $name = Split-Path -Leaf $repo
+        $launcher = Join-Path $repo 'pack\launcher.bat'
+        $lb = Bytes $launcher
+        $lt = [IO.File]::ReadAllText($launcher, [Text.Encoding]::UTF8)
+        Check 'launcher' "${name}: no BOM (a BOM breaks line 1 of a .bat)" (-not ($lb[0] -eq 0xEF -and $lb[1] -eq 0xBB)) ''
+        Check 'launcher' "${name}: CRLF line endings only" (-not ($lt -replace "`r`n", '' | Select-String "`n")) ''
+        Check 'launcher' "${name}: runs install-auto.ps1 and has the not-extracted guard" (($lt -match 'install-auto\.ps1') -and ($lt -match ':notextracted')) ''
+
+        $sbL = Join-Path $work ("launcher-" + $name); New-Item -ItemType Directory -Force $sbL | Out-Null
+        $bat = Join-Path $sbL 'Launch.bat'; Copy-Item $launcher $bat
+        $ps1 = Join-Path $sbL 'install-auto.ps1'
+
+        # (a) opened from inside the zip: Windows copies only the .bat out, so the script is missing
+        if (Test-Path $ps1) { Remove-Item $ps1 }
+        $o = (& cmd /c "echo.| `"$bat`" 2>&1") -join "`n"; $code = $LASTEXITCODE
+        Check 'launcher' "${name}: .bat opened WITHOUT the extracted files -> clear Mongolian message, exit 1" (($code -eq 1) -and ($o -match 'задлаагүй') -and ($o -match 'Extract All')) "exit $code"
+
+        # (b) a normal run
+        Set-Content $ps1 -Value "Set-Content -LiteralPath '$(Join-Path $sbL 'ran.txt')' -Value ok; exit 0" -Encoding UTF8
+        $o = (& cmd /c "echo.| `"$bat`" 2>&1") -join "`n"; $code = $LASTEXITCODE
+        Check 'launcher' "${name}: normal run starts the installer script and exits 0" (($code -eq 0) -and (Test-Path (Join-Path $sbL 'ran.txt'))) "exit $code"
+
+        # (c) the installer fails: the customer must be told, and the window must wait
+        Set-Content $ps1 -Value "exit 1" -Encoding UTF8
+        $o = (& cmd /c "echo.| `"$bat`" 2>&1") -join "`n"; $code = $LASTEXITCODE
+        Check 'launcher' "${name}: a failing installer -> 'алдаа гарлаа' message and exit 1" (($code -eq 1) -and ($o -match 'алдаа гарлаа')) "exit $code"
+
+        # (d) a folder with spaces and Cyrillic in its name (the customer's Downloads can be anything)
+        $odd = Join-Path $work ("Миний татсан файл $name"); New-Item -ItemType Directory -Force $odd | Out-Null
+        Copy-Item $launcher (Join-Path $odd 'Launch.bat')
+        Set-Content (Join-Path $odd 'install-auto.ps1') -Value "Set-Content -LiteralPath '$(Join-Path $odd 'ran.txt')' -Value ok; exit 0" -Encoding UTF8
+        $null = & cmd /c "echo.| `"$(Join-Path $odd 'Launch.bat')`" 2>&1"
+        Check 'launcher' "${name}: works from a folder with spaces and Cyrillic in its name" ((Test-Path (Join-Path $odd 'ran.txt'))) ''
+    }
+} finally { [Console]::OutputEncoding = $oldEnc }
 
 # ===================================================== 2. Find-Driver (D: etc.)
 try {
@@ -313,6 +354,10 @@ try {
                         if ($en.Name -like '*.bat') {
                             $sr = New-Object IO.StreamReader($en.Open()); $bt = $sr.ReadToEnd(); $sr.Close()
                             Check 'built zips' "$($zf.Name): $($en.Name) pauses" ($bt -match '(?im)^pause\s*$') 'a launcher that closes on error hides the error'
+                            if ($en.Name -like 'Install_Suulgah*') {
+                                $cur = [IO.File]::ReadAllText((Join-Path $repo 'pack\launcher.bat'), [Text.Encoding]::UTF8).Replace("`r`n", "`n")
+                                Check 'built zips' "$($zf.Name): $($en.Name) is the current launcher" ($bt.Replace("`r`n", "`n") -eq $cur) 'stale zip - built before the launcher changed?'
+                            }
                         }
                     }
                 } finally { $z.Dispose() }

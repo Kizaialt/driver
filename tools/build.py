@@ -115,54 +115,41 @@ def mn_row(m):
                  'сонгоно.' % menu) if m.get('type') == 'mouse' else (
                 'Драйвер шууд <b>монгол хэл дээр</b> нээгдэнэ.')
 
-        if m.get('exe'):
-            # ONE .exe: it finds the driver (any drive), runs the vendor's own installer
-            # only if the driver is missing, and adds Mongolian. Nothing to extract, no
-            # script, no console window. It is not code-signed yet, so Windows shows
-            # "Windows protected your PC" on first run - say so BEFORE the click, calmly,
-            # rather than let a customer meet it cold. The zip stays as the fallback for
-            # anyone whose browser or antivirus will not hand over an .exe.
-            alt = ''
-            if m.get('auto'):
-                alt = (
-                    '<p class="alt">Хэрэв <b>.exe</b> татагдахгүй, эсвэл нээгдэхгүй бол '
-                    '<a href="%s">.zip хувилбар</a> — задлаад дотор нь байгаа '
-                    '<b>Суулгах.bat</b> дээр хоёр товшино.</p>'
-                ) % esc(m['auto'])
-            body = (
-                '<ul class="steps"><li>'
-                '<div class="steptitle">Татаад суулгах</div>'
-                '<div class="stephint">Драйвер болон монгол хэл хамт нэг файлд. '
-                'Татсан <b>.exe</b> файлаа хоёр товшоод, <b>Үргэлжлүүлэх</b> дарна. '
-                'Драйвер аль хэдийн суусан бол дахин суулгахгүй, зөвхөн монгол хэлийг нэмнэ.</div>'
-                '%s%s'
-                '<a class="btn" href="%s">%sТатаад суулгах</a>'
-                '<div class="stephint">Windows <b>«Windows protected your PC»</b> гэж анхааруулж '
-                'магадгүй — файл шинэ тул гардаг, аюул гэсэн үг биш. '
-                '<b>More info</b> дараад <b>Run anyway</b> дарна уу.</div>'
-                '</li></ul>'
-                '<div class="after">%s</div>%s'
-            ) % (req('pack'), WARN_WIN, esc(m['exe']), DL, opens, alt)
-        else:
-            # Models with no .exe yet: the zip, as before.
-            alt = ''
-            if m.get('auto') and m.get('pack') and m['pack'] != m['auto']:
-                alt = (
-                    '<p class="alt">Драйвераа аль хэдийн суулгасан бол '
-                    '<a href="%s">зөвхөн монгол хэлний файл</a> хангалттай — '
-                    'задлаад <b>install-mn.bat</b>-ыг ажиллуулна.</p>'
-                ) % esc(m['pack'])
-            body = (
-                '<ul class="steps"><li>'
-                '<div class="steptitle">Татаад суулгах</div>'
-                '<div class="stephint">Драйвер болон монгол хэл хамт нэг файлд. '
-                'Татсан <b>.zip</b>-ээ задлаад дотор нь байгаа <b>Суулгах.bat</b> дээр '
-                'хоёр товшоод, гарч ирэх цонхон дээр Next / Install дарна.</div>'
-                '%s%s'
-                '<a class="btn" href="%s">%sТатаад суулгах</a>'
-                '</li></ul>'
-                '<div class="after">%s</div>%s'
-            ) % (req('pack'), WARN_WIN, esc(m.get('auto') or m['pack']), DL, opens, alt)
+        # One zip, one double-click. The zip holds the vendor's own installer and our script, so
+        # there is nothing to download separately. Windows asks ONE routine question ("The
+        # publisher could not be verified" -> Run); the page shows that exact dialog first, so the
+        # customer recognises it instead of being startled. Not "More info -> Run anyway": that
+        # hidden-button pattern is what malware instructions use, and we do not teach it.
+        who = 'KYSONA' if m.get('brand') == 'KYSONA' else 'AULA'
+        steps = (
+            '<ol class="howto">'
+            '<li>Доорх товчоор <b>.zip</b> файлаа татна.</li>'
+            '<li>Татсан файл дээр хулганы баруун товчийг дараад <b>Extract All…</b> '
+            '(Бүгдийг задлах) → <b>Extract</b> сонгоно. <i>Zip-ийн дотроос шууд бүү нээ.</i></li>'
+            '<li>Гарч ирсэн хавтас доторх <b>Install_Suulgah.bat</b> дээр хоёр товшино.</li>'
+            '<li>Windows доорх цонхоор асуувал <b>Run</b> дарна.</li>'
+            '<li>%s-гийн суулгагчийн цонх гарвал <b>Next / Install</b> дарж дуусгана.</li>'
+            '</ol>'
+        ) % who
+        shot = (
+            '<figure class="shot">'
+            '<img src="assets/windows-run-dialog.png" width="480" height="351" loading="lazy" '
+            'alt="Windows-ийн Open File - Security Warning цонх. Run товчийг дарна.">'
+            '<figcaption>Шинэ файл болгонд Windows ингэж асуудаг. Зөвхөн <b>энэ хуудаснаас</b> '
+            'татсан файлд <b>Run</b> дарна уу.</figcaption>'
+            '</figure>'
+        )
+        body = (
+            '<div class="plain">'
+            '<div class="steptitle">Татаад суулгах</div>'
+            '<div class="stephint">Драйвер болон монгол хэл хамт нэг файлд. '
+            'Драйвер аль хэдийн суусан бол дахин суулгахгүй, зөвхөн монгол хэлийг нэмнэ.</div>'
+            '%s%s'
+            '<a class="btn" href="%s">%sТатаад суулгах</a>'
+            '</div>'
+            '%s%s'
+            '<div class="after">%s</div>'
+        ) % (req('pack'), WARN_WIN, esc(m.get('auto') or m['pack']), DL, steps, shot, opens)
 
     return (
         '<details class="item" id="%s" data-k="%s">'
