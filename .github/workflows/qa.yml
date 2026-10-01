@@ -123,3 +123,27 @@ jobs:
       - name: Run every install script in a sandbox
         shell: powershell
         run: powershell -NoProfile -ExecutionPolicy Bypass -File tools/qa/test_installers.ps1
+
+  # The one-file installers (Inno Setup). Built as TEST builds - identical code, but no
+  # admin prompt, and they never launch a vendor installer - then run in a sandbox and
+  # compared byte-for-byte with independently computed expectations. The real vendor
+  # installers are not in git, so a 2-byte stand-in is embedded (it is never run).
+  exe-installers:
+    name: One-file installers behave byte-for-byte
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Clone the pack repos next to this one
+        shell: bash
+        run: |
+          git clone --depth 1 https://github.com/Kizaialt/aula-fseries-mn.git ../aula-fseries-mn
+          git clone --depth 1 https://github.com/Kizaialt/kysona-m600-mn.git ../kysona-m600-mn
+      - name: Install Inno Setup
+        shell: powershell
+        run: choco install innosetup -y --no-progress
+      - name: Build the test installers and run them in a sandbox
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File tools/qa/test_exe_installers.ps1 -DummyVendor

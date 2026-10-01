@@ -176,6 +176,10 @@ foreach ($mode in 'auto', 'langonly') {
     $oldL = ([Text.Encoding]::Unicode.GetString($orig) -replace "`r`n", "`n").TrimEnd("`n").Split("`n")
     $newL = ($cfg -replace "`r`n", "`n").TrimEnd("`n").Split("`n")
     Check $g 'changes exactly one line (adds one, removes none)' (@($newL | Where-Object { $oldL -notcontains $_ }).Count -eq 1 -and @($oldL | Where-Object { $newL -notcontains $_ }).Count -eq 0) ''
+    # Measure BYTES, not unique lines: a set comparison cannot see an extra blank line, and the
+    # first version of this script did append one to AULA's Cfg.ini (+4 bytes) unnoticed.
+    $expectedGrowth = [Text.Encoding]::Unicode.GetByteCount("Lang3=$mn,mn`r`n")
+    Check $g 'grows by exactly the one new line (no stray blank line)' (($b.Length - $orig.Length) -eq $expectedGrowth) "grew by $($b.Length - $orig.Length) bytes, expected $expectedGrowth"
     Check $g 'keeps a .bak of the original' ((Test-Path (Join-Path $inst 'Cfg.ini.bak')) -and (Same-Bytes (Bytes (Join-Path $inst 'Cfg.ini.bak')) $orig)) ''
     Check $g 'copies Text\mn\text.xml unchanged' ((Test-Path (Join-Path $inst 'Text\mn\text.xml')) -and (Same-Bytes (Bytes (Join-Path $inst 'Text\mn\text.xml')) (Bytes $srcXml))) ''
     if ($mode -eq 'auto') {
