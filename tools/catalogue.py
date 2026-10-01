@@ -23,8 +23,8 @@ AULA_LIST = 'https://www.aulastar.com/keyboard/'
 KYSONA_LIST = 'https://shop.kysona.com/pages/downloads'
 
 WEB_DRIVER = 'https://kizaialt.github.io/winhe-driver/'
-FSERIES_REL = 'https://github.com/Kizaialt/aula-fseries-mn/releases/download/v1.4/'
-KYSONA_REL = 'https://github.com/Kizaialt/kysona-m600-mn/releases/download/v1.4/'
+FSERIES_REL = 'https://github.com/Kizaialt/aula-fseries-mn/releases/download/v1.5/'
+KYSONA_REL = 'https://github.com/Kizaialt/kysona-m600-mn/releases/download/v1.5/'
 
 
 def aula(url):
