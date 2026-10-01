@@ -140,7 +140,10 @@ MONGOLIAN = [
     },
     {
         'brand': 'KYSONA', 'name': 'M600', 'type': 'mouse', 'kind': 'pack',
-        'alias': ['м600', 'm 600', 'm617', 'aztec', 'кисона'],
+        # filter.js transliterates Cyrillic to Latin before matching, so a
+        # Cyrillic spelling is only needed where it does not transliterate
+        # onto the Latin one ("кисона" -> kisona, not kysona).
+        'alias': ['м600', 'm 600', 'm617', 'aztec', 'aztek', 'кисона'],
         'note': 'M617, Aztec загварт мөн тохирно',
         'vendor': 'https://cdn.shopify.com/s/files/1/0809/0697/7595/files/M600.exe?v=1731988923',
         'vendor_page': KYSONA_LIST,

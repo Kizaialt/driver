@@ -5,11 +5,59 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Драйвер — Peaklab</title>
 <meta name="description" content="Peaklab-аас авсан гар, хулганы драйверыг загвараар нь олж татах. WIN 60/68 HE, AULA F-цуврал, KYSONA M600 монгол хэлтэй.">
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d0f12" media="(prefers-color-scheme: dark)">
+
+<!-- The link gets pasted into Messenger by shop staff; give it a card. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Драйвер татах — Peaklab">
+<meta property="og:description" content="Гар, хулганынхаа загварыг олоод драйверыг монгол хэл дээр татна. <!--N_MN--> загвар монголоор.">
+<meta property="og:url" content="https://kizaialt.github.io/driver/">
+<meta property="og:locale" content="mn_MN">
+<meta name="twitter:card" content="summary">
+
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23111'/><rect x='7' y='11' width='18' height='11' rx='2.5' fill='none' stroke='%23fff' stroke-width='2'/><rect x='11' y='17' width='10' height='2' rx='1' fill='%23fff'/></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<!--
+  Capability probe, before first paint.
+
+  Everything this page hands out needs a computer: the web driver needs
+  WebHID (desktop Chrome/Edge only) and a keyboard on the end of a USB
+  cable, and the language packs are Windows installers in a .zip. The
+  commonest visit, though, is a phone in the shop scanning the QR on the
+  box - so the page has to say that out loud rather than offer a button
+  that cannot work.
+
+  Running it here rather than in filter.js means the conditional copy is
+  already correct at first paint: no flash, no layout shift. It is pure
+  feature detection plus one coarse device check, and with JavaScript off
+  none of it fires - the static text below covers that case on its own.
+-->
+<script>
+(function (c) {
+  var n = navigator, u = n.userAgent || '', d = n.userAgentData;
+  var plat = (d && d.platform) || n.platform || u;
+  var mobile = (d && d.mobile === true) ||
+               /Android|iPhone|iPad|iPod|Mobile|Silk|Kindle/i.test(u) ||
+               (/Mac/i.test(plat) && n.maxTouchPoints > 1);   /* iPadOS lies */
+  if (mobile) c.add('is-mobile');
+  if (!('hid' in n)) c.add('no-hid');
+  if (!/Win/i.test(plat)) c.add('no-win');
+})(document.documentElement.classList);
+</script>
+
+<!--
+  Inter is the Peaklab face and its cyrillic-ext subset is what renders Өө
+  and Үү. It must not hold up first paint on a phone on a slow connection,
+  so it loads asynchronously; Segoe UI / Roboto stand in until it arrives
+  and both cover Mongolian Cyrillic.
+-->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all';this.onload=null">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>
+
 <style>
 :root{
   --canvas:#ffffff;
@@ -18,11 +66,15 @@
   --border:#e5e7eb;
   --border-strong:#d1d5db;
   --ink:#111111;
+  --ink-fg:#ffffff;
   --body:#374151;
   --muted:#5b6472;
   --ok:#046c4e;
   --ok-bg:#e7f6ef;
   --ok-border:#b7e3ce;
+  --warn:#8a5300;
+  --warn-bg:#fff7e8;
+  --warn-border:#f0dcb4;
   --focus:#111111;
 
   --r-sm:8px;
@@ -33,8 +85,31 @@
   --ease:cubic-bezier(.22,1,.36,1);
 }
 
+/* A phone in a dark room is the second-commonest way this page is read.
+   Same tokens, re-pointed; nothing below this block knows the difference. */
+@media (prefers-color-scheme:dark){
+  :root{
+    --canvas:#0d0f12;
+    --surface:#181b20;
+    --surface-2:#14171b;
+    --border:#262a31;
+    --border-strong:#3a404a;
+    --ink:#f4f6f8;
+    --ink-fg:#0d0f12;
+    --body:#c4cad3;
+    --muted:#99a1ad;
+    --ok:#4ade80;
+    --ok-bg:#0e2a1c;
+    --ok-border:#1f5138;
+    --warn:#fbbf24;
+    --warn-bg:#2a2008;
+    --warn-border:#4d3a12;
+    --focus:#ffffff;
+  }
+}
+
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;background:var(--canvas)}
 body{
   margin:0;
   background:var(--canvas);
@@ -58,6 +133,7 @@ a{color:var(--ink)}
   text-decoration:none;
 }
 .brand svg{display:block}
+.brand:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:4px}
 h1{font-size:28px;font-weight:700;letter-spacing:-.022em;margin:18px 0 8px}
 .lede{font-size:15px;max-width:52ch}
 
@@ -81,8 +157,10 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.022em;margin:18px 0 8px}
   border-radius:var(--r-sm);
   padding:12px 40px 12px 42px;
   min-height:48px;
+  text-overflow:ellipsis;    /* a long prompt tapers, never chops mid-word */
 }
 #q::placeholder{color:var(--muted);opacity:1}
+#q::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
 #q:focus{outline:2px solid var(--focus);outline-offset:1px;background:var(--canvas)}
 #clear{
   position:absolute;right:6px;
@@ -95,6 +173,19 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.022em;margin:18px 0 8px}
 #clear:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
 .count{margin-top:8px;font-size:13px;color:var(--muted);min-height:20px}
 
+/* ---------- "you are on a phone" ---------- */
+.devnote{
+  display:none;
+  margin:4px 0 2px;
+  padding:14px 16px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-md);
+}
+html.is-mobile .devnote{display:block}
+.devnote p{font-size:13.5px;color:var(--body)}
+.devnote b{color:var(--ink);font-weight:600}
+
 /* ---------- sections ---------- */
 section{margin:34px 0}
 .sechead{margin-bottom:6px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
@@ -104,7 +195,7 @@ h2{font-size:17px;font-weight:600;letter-spacing:-.012em}
 
 /* ---------- model rows ---------- */
 .list{border-top:1px solid var(--border)}
-.item{border-bottom:1px solid var(--border)}
+.item{border-bottom:1px solid var(--border);scroll-margin-top:var(--barh,116px)}
 .item[hidden]{display:none}
 
 .row{
@@ -146,7 +237,7 @@ details[open] .chev{transform:rotate(180deg)}
   content:counter(s);
   position:absolute;left:0;top:1px;
   width:22px;height:22px;border-radius:999px;
-  background:var(--ink);color:#fff;
+  background:var(--ink);color:var(--ink-fg);
   font-size:12px;font-weight:600;
   display:grid;place-items:center;
   font-variant-numeric:tabular-nums;
@@ -155,15 +246,37 @@ details[open] .chev{transform:rotate(180deg)}
 .steptitle{font-weight:600;color:var(--ink);font-size:14.5px}
 .stephint{font-size:13.5px;color:var(--muted);margin-top:2px}
 
+/* What this model needs, stated before the button rather than after it. */
+.req{
+  display:flex;align-items:center;gap:7px;
+  margin-top:10px;
+  font-size:13px;color:var(--muted);
+}
+.req svg{flex:none}
+
+/* Shown only when we have detected that it will not work here. */
+.warn{
+  display:none;
+  gap:8px;align-items:flex-start;
+  margin-top:10px;padding:10px 12px;
+  background:var(--warn-bg);border:1px solid var(--warn-border);
+  border-radius:var(--r-sm);
+  font-size:13px;color:var(--warn);
+}
+.warn svg{flex:none;margin-top:2px}
+html.no-hid .warn[data-need="hid"]{display:flex}
+html.no-win:not(.is-mobile) .warn[data-need="win"]{display:flex}
+
 .btn{
   display:inline-flex;align-items:center;gap:7px;
-  margin-top:8px;
+  margin-top:10px;
   padding:11px 16px;min-height:44px;   /* touch target floor */
   border-radius:var(--r-sm);
   font-size:14px;font-weight:600;line-height:1;
   text-decoration:none;
   border:1px solid var(--ink);
-  background:var(--ink);color:#fff;
+  background:var(--ink);color:var(--ink-fg);
+  cursor:pointer;
   transition:opacity .15s var(--ease);
 }
 .btn:hover{opacity:.86}
@@ -204,6 +317,8 @@ details[open] .chev{transform:rotate(180deg)}
 #empty.show{display:block}
 #empty h3{font-size:16px;margin-bottom:6px}
 #empty p{font-size:14px;color:var(--muted);max-width:52ch}
+#empty a{color:var(--muted);text-decoration:underline;text-underline-offset:2px}
+#empty a:hover{color:var(--ink)}
 
 /* ---------- help + footer ---------- */
 .help{background:var(--surface);border-radius:var(--r-md);padding:18px 20px}
@@ -222,13 +337,14 @@ footer a{color:var(--muted)}
 
 .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .skip{position:absolute;left:-9999px}
-.skip:focus{left:20px;top:10px;z-index:50;background:var(--ink);color:#fff;padding:9px 14px;border-radius:var(--r-sm)}
+.skip:focus{left:20px;top:10px;z-index:50;background:var(--ink);color:var(--ink-fg);padding:9px 14px;border-radius:var(--r-sm)}
 
 @media (max-width:560px){
   .top{padding:24px 0 16px}
   h1{font-size:24px}
   .tag{display:none}          /* the section heading already says it */
   .row{padding:13px 2px}
+  .btn{width:100%;justify-content:center}
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -242,11 +358,11 @@ footer a{color:var(--muted)}
 <div class="wrap">
   <header class="top">
     <a class="brand" href="https://kizaialt.github.io/driver/">
-      <svg width="20" height="20" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#111"/><rect x="7" y="11" width="18" height="11" rx="2.5" fill="none" stroke="#fff" stroke-width="2"/><rect x="11" y="17" width="10" height="2" rx="1" fill="#fff"/></svg>
+      <svg width="20" height="20" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><rect x="7" y="11" width="18" height="11" rx="2.5" fill="none" stroke="var(--canvas)" stroke-width="2"/><rect x="11" y="17" width="10" height="2" rx="1" fill="var(--canvas)"/></svg>
       Peaklab
     </a>
     <h1>Драйвер татах</h1>
-    <p class="lede">Гар, хулганынхаа загварыг олно уу. Арван загварын драйвер <b>монгол хэл дээр</b> нээгдэнэ.</p>
+    <p class="lede">Гар, хулганынхаа загварыг олно уу. <b><!--N_MN--> загварын</b> драйвер монгол хэл дээр нээгдэнэ.</p>
   </header>
 
   <div class="searchbar" id="searchbar">
@@ -254,10 +370,21 @@ footer a{color:var(--muted)}
     <div class="field">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <input id="q" type="search" autocomplete="off" spellcheck="false"
-             placeholder="Загвараа бичнэ үү — F75, WIN 60, M600…">
+             placeholder="Загвар хайх — F75, M600"
+             data-ph-wide="Загвараа бичнэ үү — F75, WIN 60 HE, M600…">
       <button id="clear" type="button" aria-label="Хайлтыг цэвэрлэх">&times;</button>
     </div>
     <div class="count" id="count" role="status" aria-live="polite"><!--N_TOTAL--> загвар</div>
+  </div>
+
+  <!-- Phones only. Nothing here can be finished on one, so say so once,
+       up front, and hand over the one thing that helps: the link. -->
+  <div class="devnote">
+    <p>Эдгээр драйверыг <b>Windows компьютер</b> дээр суулгана — утсан дээр ажиллахгүй. Загвараа эндээс олоод, холбоосоо компьютер руугаа явуулаарай.</p>
+    <button class="btn ghost" id="sendlink" type="button">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
+      <span class="lbl">Холбоосыг хуулах</span>
+    </button>
   </div>
 
   <main id="main">
@@ -266,7 +393,7 @@ footer a{color:var(--muted)}
         <h2>Монгол хэлтэй</h2>
         <span class="n"><!--N_MN--></span>
       </div>
-      <p class="secnote">Татаад суулгахад драйвер шууд монголоор нээгдэнэ — хэл сонгох шаардлагагүй.</p>
+      <p class="secnote">Татаад суулгахад драйвер шууд монголоор нээгдэнэ — хэл сонгох шаардлагагүй. Бүгдийг компьютер дээрээ хийнэ.</p>
       <div class="list" id="list-mn"><!--MN_ROWS--></div>
     </section>
 
@@ -281,10 +408,10 @@ footer a{color:var(--muted)}
 
     <div id="empty">
       <h3>Ийм загвар олдсонгүй</h3>
-      <p>Загварын нэрийг бүтнээр нь биш, эхний хэсгээр нь бичиж үзнэ үү — жишээ нь «F7» эсвэл «WIN». Олдохгүй бол Peaklab-т хандвал бид олж өгнө.</p>
+      <p>Загварын нэрийг бүтнээр нь биш, эхний хэсгээр нь бичиж үзнэ үү — жишээ нь «F7» эсвэл «WIN». Загвараа мэдэхгүй бол <a href="#find">хаанаас харахыг эндээс</a> үзнэ үү. Олдохгүй бол Peaklab-т хандвал бид олж өгнө.</p>
     </div>
 
-    <section class="help">
+    <section class="help" id="find">
       <h2>Загвараа мэдэхгүй байна уу?</h2>
       <p>Загварын нэр ихэвчлэн дараах газруудад бичээстэй байдаг:</p>
       <ul>
@@ -303,83 +430,7 @@ footer a{color:var(--muted)}
 </div>
 
 <script>
-(function () {
-  'use strict';
-  /* Rows are already in the served HTML; this script only filters them.
-     With JavaScript off the full catalogue is still there, just unfiltered. */
-
-  var q = document.getElementById('q');
-  var clear = document.getElementById('clear');
-  var count = document.getElementById('count');
-  var empty = document.getElementById('empty');
-  var secMn = document.getElementById('sec-mn');
-  var secOther = document.getElementById('sec-other');
-  var rows = [].slice.call(document.querySelectorAll('[data-k]'));
-  var total = rows.length;
-
-  var T = {
-    all: 'загвар',                       // загвар
-    none: 'Олдсонгүй',    // Олдсонгүй
-    found: 'загвар олдлоо' // загвар олдлоо
-  };
-
-  function norm(s) { return s.toLowerCase().replace(/\s+/g, ' ').trim(); }
-
-  function filter() {
-    var term = norm(q.value);
-    clear.style.display = term ? 'grid' : 'none';
-
-    if (!term) {
-      rows.forEach(function (r) { r.hidden = false; });
-      secMn.hidden = false;
-      secOther.hidden = false;
-      empty.classList.remove('show');
-      count.textContent = total + ' ' + T.all;
-      return;
-    }
-
-    var shown = 0, shownMn = 0, lastMn = null;
-    rows.forEach(function (r) {
-      var hit = r.getAttribute('data-k').indexOf(term) !== -1;
-      r.hidden = !hit;
-      if (hit) {
-        shown++;
-        if (r.tagName === 'DETAILS') { shownMn++; lastMn = r; }
-      }
-    });
-
-    secMn.hidden = shownMn === 0;
-    secOther.hidden = (shown - shownMn) === 0;
-    empty.classList.toggle('show', shown === 0);
-    count.textContent = shown === 0 ? T.none : shown + ' ' + T.found;
-
-    /* exactly one Mongolian match: open it, since that is the answer */
-    if (shownMn === 1 && lastMn) lastMn.open = true;
-  }
-
-  q.addEventListener('input', filter);
-  clear.addEventListener('click', function () { q.value = ''; filter(); q.focus(); });
-  q.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && q.value) { q.value = ''; filter(); }
-  });
-
-  /* Desktop only. On touch this pops the keyboard over the list on arrival. */
-  if (window.matchMedia('(min-width:700px)').matches && !('ontouchstart' in window)) {
-    q.focus();
-  }
-
-  filter();
-
-  /* Hairline under the sticky bar only once it is actually stuck. */
-  var bar = document.getElementById('searchbar');
-  var sentinel = document.createElement('div');
-  bar.parentNode.insertBefore(sentinel, bar);
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (e) {
-      bar.classList.toggle('is-stuck', !e[0].isIntersecting);
-    }).observe(sentinel);
-  }
-})();
+<!--FILTER_JS-->
 </script>
 </body>
 </html>

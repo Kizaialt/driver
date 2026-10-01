@@ -1,0 +1,100 @@
+name: QA
+
+# The portal repo is the hub.  It holds tools/qa/, so it is the only place that
+# can run the cross-project checks: the glossary linter is only worth anything
+# when all four translations are in front of it at once.
+#
+# Design note - why this clones instead of rebuilding:
+#   Vendor installers and their extracted trees are gitignored (installers/,
+#   .work/, .work2/) because they are vendor binaries and must never be
+#   committed.  A CI job therefore CANNOT rebuild a language pack from source.
+#   It verifies the artifacts that are committed, against the vendor key sets
+#   recorded in each repo's tools/vendor-baseline.json.  That file is generated
+#   on a machine that has the installers, by tools/qa/snapshot_vendor.py, and
+#   committed as text.
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  schedule:
+    # Mondays 03:00 UTC - 11:00 Ulaanbaatar, so a failure is waiting on Monday
+    # morning rather than discovered by a customer.
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    name: Portal links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: HTTP-check every link on the portal
+        run: python tools/checklinks.py
+
+  verify:
+    name: Locale artifacts and glossary
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # The three pack repos are public, so an anonymous clone works and needs
+      # no token.  --depth 1 keeps it to a few seconds.
+      - name: Clone the localisation repos
+        run: |
+          for r in aula-driver-mn aula-fseries-mn kysona-m600-mn; do
+            git clone --depth 1 "https://github.com/Kizaialt/$r.git" "../$r"
+          done
+
+      - name: Self-test the verifier
+        run: python tools/qa/verify_artifacts.py --self-test
+
+      - name: Self-test the glossary linter
+        run: python tools/qa/lint_glossary.py --self-test
+
+      - name: Verify every shipped locale artifact
+        run: python tools/qa/verify_artifacts.py --verbose
+
+      - name: Lint terminology across all four translations
+        run: python tools/qa/lint_glossary.py --show-consistency
+
+      - name: String-length overflow report (advisory)
+        if: always()
+        run: python tools/qa/length_report.py --top 30
+
+  vendor-drift:
+    name: Vendor drift
+    runs-on: ubuntu-latest
+    # Only on a schedule or by hand: it downloads ~120 MB from the vendors and
+    # there is no reason to do that on every push.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Clone the localisation repos
+        run: |
+          for r in aula-driver-mn aula-fseries-mn kysona-m600-mn; do
+            git clone --depth 1 "https://github.com/Kizaialt/$r.git" "../$r"
+          done
+
+      - name: Web driver - has AULA changed config/language.json?
+        run: python tools/qa/vendor_drift.py --web
+
+      # Hash level only: innoextract is not installed here, and the point of
+      # the scheduled run is "did anything move at all".  When it reports drift,
+      # re-run the key-level diff locally, where the installers already are:
+      #   python tools/qa/vendor_drift.py --all
+      - name: Installers - has the vendor shipped a new build?
+        run: python tools/qa/vendor_drift.py --all --hash-only

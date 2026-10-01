@@ -1,0 +1,336 @@
+{
+  "_note": "Terminology policy for every Peaklab driver localisation, in one place. The point is cross-project consistency: a customer who buys an AULA keyboard and a KYSONA mouse from the same shop must not meet two different Mongolian words for the same control. Edit this file, not the individual mn.json files, when the policy changes. Linted by driver/tools/qa/lint_glossary.py.",
+  "_severity": "keep_english and avoid are errors - they are precise. require is a warning: Mongolian phrasing legitimately varies, and the check is only applied to short labels.",
+  "keep_english": [
+    {
+      "term": "Polling Rate",
+      "note": "on the box, in every review and in every other peripheral driver"
+    },
+    {
+      "term": "Motion Sync",
+      "note": "mouse sensor feature name"
+    },
+    {
+      "term": "Angle Snapping",
+      "note": "mouse sensor feature name"
+    },
+    {
+      "term": "Ripple Control",
+      "note": "mouse sensor feature name"
+    },
+    {
+      "term": "Debounce",
+      "note": "switch-bounce filter; gamers say Debounce"
+    },
+    {
+      "term": "Rapid Trigger",
+      "note": "Hall-effect headline feature"
+    },
+    {
+      "term": "SOCD",
+      "note": "Simultaneous Opposing Cardinal Directions"
+    },
+    {
+      "term": "DKS",
+      "note": "Dynamic Keystroke"
+    },
+    {
+      "term": "MT",
+      "note": "Mod Tap"
+    },
+    {
+      "term": "TGL",
+      "note": "Toggle"
+    },
+    {
+      "term": "RS",
+      "note": "Rappy Snappy"
+    },
+    {
+      "term": "RKRT",
+      "note": "Rapid Key Release Trigger"
+    },
+    {
+      "term": "DPI",
+      "note": "mouse resolution"
+    },
+    {
+      "term": "LOD",
+      "note": "Lift-Off Distance"
+    },
+    {
+      "term": "Fn",
+      "note": "the physical key is engraved Fn"
+    },
+    {
+      "term": "RGB",
+      "note": "lighting"
+    },
+    {
+      "term": "USB",
+      "note": "connector"
+    },
+    {
+      "term": "2.4G",
+      "note": "wireless mode, engraved on the dongle"
+    }
+  ],
+  "exempt": [
+    {
+      "english": "Frequency Rate",
+      "why": "In the .lan family this is the AUDIO frequency of the music-reactive lighting, not a polling rate. «Давтамж» is the correct translation. Do NOT let a 'Rate' rule drag this back to English."
+    },
+    {
+      "english": "Frequency",
+      "why": "Same: audio frequency of the music-reactive lighting."
+    },
+    {
+      "english": "Left Key",
+      "only_where": [
+        "M600"
+      ],
+      "why": "Mouse hardware: the vendor's English says 'Key' but this is a physical MOUSE BUTTON. Everyday Mongolian is 'хулганы зүүн товч', so товч is correct here. Policy key=товчлуур is for keyboard keys."
+    },
+    {
+      "english": "Right Key",
+      "only_where": [
+        "M600"
+      ],
+      "why": "Mouse hardware: the vendor's English says 'Key' but this is a physical MOUSE BUTTON. Everyday Mongolian is 'хулганы зүүн товч', so товч is correct here. Policy key=товчлуур is for keyboard keys."
+    },
+    {
+      "english": "Middle Key",
+      "only_where": [
+        "M600"
+      ],
+      "why": "Mouse hardware: the vendor's English says 'Key' but this is a physical MOUSE BUTTON. Everyday Mongolian is 'хулганы зүүн товч', so товч is correct here. Policy key=товчлуур is for keyboard keys."
+    },
+    {
+      "english": "Forward Key",
+      "only_where": [
+        "M600"
+      ],
+      "why": "Mouse hardware: the vendor's English says 'Key' but this is a physical MOUSE BUTTON. Everyday Mongolian is 'хулганы зүүн товч', so товч is correct here. Policy key=товчлуур is for keyboard keys."
+    },
+    {
+      "english": "Back Key",
+      "only_where": [
+        "M600"
+      ],
+      "why": "Mouse hardware: the vendor's English says 'Key' but this is a physical MOUSE BUTTON. Everyday Mongolian is 'хулганы зүүн товч', so товч is correct here. Policy key=товчлуур is for keyboard keys."
+    },
+    {
+      "english": "Must keep Left key",
+      "only_where": [
+        "M600"
+      ],
+      "why": "Mouse hardware: the vendor's English says 'Key' but this is a physical MOUSE BUTTON. Everyday Mongolian is 'хулганы зүүн товч', so товч is correct here. Policy key=товчлуур is for keyboard keys."
+    },
+    {
+      "english": "Fire key",
+      "only_where": [
+        "M600"
+      ],
+      "why": "Mouse hardware: the vendor's English says 'Key' but this is a physical MOUSE BUTTON. Everyday Mongolian is 'хулганы зүүн товч', so товч is correct here. Policy key=товчлуур is for keyboard keys."
+    },
+    {
+      "english": "Set repeat times to 0, repeat while key is pressed, stop when key is released.",
+      "only_where": [
+        "M600"
+      ],
+      "why": "Mouse hardware: the vendor's English says 'Key' but this is a physical MOUSE BUTTON. Everyday Mongolian is 'хулганы зүүн товч', so товч is correct here. Policy key=товчлуур is for keyboard keys."
+    }
+  ],
+  "terms": [
+    {
+      "en": [
+        "key",
+        "keys"
+      ],
+      "mn": "товчлуур",
+      "avoid": [
+        "товч"
+      ],
+      "unless_en": [
+        "button",
+        "buttons"
+      ],
+      "note": "key = товчлуур. товч on its own means 'button/brief' and reads wrong on a keyboard. Suppressed when the same English string also says 'button', because товч IS the right word for a mouse button or an [Apply] button and many sentences contain both."
+    },
+    {
+      "en": [
+        "browser"
+      ],
+      "mn": "хөтөч",
+      "avoid": [
+        "вэб"
+      ],
+      "note": "browser = Хөтөч, never Вэб."
+    },
+    {
+      "en": [
+        "save"
+      ],
+      "mn": "хадгал"
+    },
+    {
+      "en": [
+        "cancel"
+      ],
+      "mn": "цуцл"
+    },
+    {
+      "en": [
+        "keyboard"
+      ],
+      "mn": "гар"
+    },
+    {
+      "en": [
+        "mouse"
+      ],
+      "mn": "хулган"
+    },
+    {
+      "en": [
+        "color",
+        "colour"
+      ],
+      "mn": "өнгө"
+    },
+    {
+      "en": [
+        "brightness"
+      ],
+      "mn": "тодрол"
+    },
+    {
+      "en": [
+        "speed"
+      ],
+      "mn": "хурд"
+    },
+    {
+      "en": [
+        "profile"
+      ],
+      "mn": "профайл"
+    },
+    {
+      "en": [
+        "macro"
+      ],
+      "mn": "макро"
+    },
+    {
+      "en": [
+        "light",
+        "lighting"
+      ],
+      "mn": "гэрэлтүүлэг",
+      "also_ok": [
+        "гэрэл",
+        "гэрл"
+      ],
+      "note": "lighting = гэрэлтүүлэг as a standalone menu label, but the genitive of the shorter noun гэрэл (гэрлийн горим, гэрлийн өнгө) is normal Mongolian and is accepted."
+    },
+    {
+      "en": [
+        "firmware"
+      ],
+      "mn": "фирмвэр"
+    },
+    {
+      "en": [
+        "driver"
+      ],
+      "mn": "драйвер"
+    },
+    {
+      "en": [
+        "device"
+      ],
+      "mn": "төхөөрөмж"
+    },
+    {
+      "en": [
+        "dead zone",
+        "deadzone"
+      ],
+      "mn": "мэдрэхгүй бүс"
+    },
+    {
+      "en": [
+        "delay"
+      ],
+      "mn": "саатал"
+    },
+    {
+      "en": [
+        "frame"
+      ],
+      "mn": "кадр"
+    }
+  ],
+  "_suffixes": [
+    "",
+    "ын",
+    "ийн",
+    "ы",
+    "ий",
+    "г",
+    "ыг",
+    "ийг",
+    "д",
+    "т",
+    "ад",
+    "эд",
+    "од",
+    "өд",
+    "аас",
+    "ээс",
+    "оос",
+    "өөс",
+    "аар",
+    "ээр",
+    "оор",
+    "өөр",
+    "тай",
+    "тэй",
+    "той",
+    "той",
+    "руу",
+    "рүү",
+    "луу",
+    "лүү",
+    "ууд",
+    "үүд",
+    "нууд",
+    "нүүд",
+    "ны",
+    "ний",
+    "нд",
+    "нт",
+    "нэ",
+    "на",
+    "аа",
+    "ээ",
+    "оо",
+    "өө",
+    "ч",
+    "чид",
+    "ынх",
+    "ийнх",
+    "даа",
+    "дээ",
+    "доо",
+    "дөө",
+    "ыгаа",
+    "ийгээ",
+    "уур",
+    "үүр",
+    "тэйгээ",
+    "тайгаа"
+  ],
+  "_suffix_note": "Mongolian is agglutinative, so an 'avoid' stem must not be matched as a bare substring: товч is a prefix of товчлуур. A token counts as the avoided word only when stripping one of these suffixes leaves exactly the stem, and the token is not itself the preferred word."
+}
